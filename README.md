@@ -7,11 +7,13 @@ The purpose of this repository is to offer a step-by-step guide for running [xk6
 
 This tutorial assumes that you are familiar with Kubernetes concepts such as [deploying applications](https://kubernetes.io/docs/concepts/workloads/) and exposing them using [services](https://kubernetes.io/docs/concepts/services-networking/service/).
 
-Even when will provide all ther equired commands in this tutorial, it would also be convenient you have some familiarity with using [kubectl](https://kubernetes.io/docs/reference/kubectl/) for managing applications in Kubernetes.
+Even when will provide all the required commands in this tutorial, it would also be convenient if you have some familiarity with using [kubectl](https://kubernetes.io/docs/reference/kubectl/) for managing applications in Kubernetes.
+
+> :warning: The demo has been tested on Linux, it might not work with other OS.
 
 ## The case study
  
- In this demo we will working with the [Socks-shop application](https://github.com/microservices-demo/microservices-demo). This application implements a fully functional e-Commerce site that allows users to register, browse the catalog, and buy items.It follows a polyglot microservices-based architecture shown in the figure below. Each microservice has its own API that can be accessed directly by means of its corresponding Kubernetes service. The front-end service works as a backend for the web interface but also exposes the APIs of other services, working as a kind of API gateway.
+ In this demo, we will be working with the [Socks-shop application](https://github.com/microservices-demo/microservices-demo). This application implements a fully functional e-Commerce site that allows users to register, browse the catalog, and buy items. It follows a polyglot microservices-based architecture shown in the figure below. Each microservice has its own API that can be accessed directly using its corresponding Kubernetes service. The front-end service works as a backend for the web interface but also exposes the APIs of other services, working as a kind of API gateway.
 
  ![Socks-shop architecture](./images/architecture.png)
 
@@ -23,9 +25,9 @@ xk6-disruptor is a k6 extension. To use it in a k6 test script, it is necessary 
 
 ## Setup test environment
 
-For this demo we will be using a local Kubernetes cluster deployed using [Kind](https://kind.sigs.k8s.io/). Kind is a tool to run local Kubernetes clusters using Docker containers to emulate nodes.
+For this demo, we will be using a local Kubernetes cluster deployed using [Kind](https://kind.sigs.k8s.io/). Kind is a tool to run local Kubernetes clusters using Docker containers to emulate nodes.
 
-For the setup you will also need the `kubectl` tool.
+For the setup, you will also need the `kubectl` tool.
 
 ### Install kubectl
 
@@ -33,14 +35,19 @@ Follow [official documentation](https://kubernetes.io/docs/tasks/tools/#kubectl)
 
 ### Install kind
 
-Follow the [official documentation](https://kubernetes.io/docs/tasks/tools/#kubectl) depending on your operating system
+Follow the [official documentation](https://kubernetes.io/docs/tasks/tools/#kubectl) depending on your operating system.
 
 ## Create cluster
 
-Create a local cluster with name `demo` using the config file provided at `manifests\kind-config.yaml`. The resulting cluster will be configured to use the host port `38080` to access the ingress controller (see setup ingress below).
+Create a local cluster with a name `demo` using the config file provided at `manifests\kind-config.yaml`. The resulting cluster will be configured to use the host port `38080` to access the ingress controller (see setup ingress below).
 
 ```shell
 kind create cluster --name demo --config manifests/kind-config.yaml
+```
+
+Output:
+
+```shell
 Creating cluster "demo" ...
  ✓ Ensuring node image (kindest/node:v1.24.0) 🖼
  ✓ Preparing nodes 📦  
@@ -64,22 +71,30 @@ We will install the nginx ingress controller to expose services to the host mach
 
 ```shell
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+```
+
+Output (some omitted for brevity):
+
+```shell
 namespace/ingress-nginx created
 serviceaccount/ingress-nginx created
 serviceaccount/ingress-nginx-admission created
-
+...
 ```
-
-(Some output omitted for brevity)
 
 ### Set access to the cluster
 
-xk6-disruptor needs to interact with the Kubernetes cluster on which the application is running. In order to do so, you must have the credentials to access the cluster in a [kubeconfig file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/).
+The xk6-disruptor needs to interact with the Kubernetes cluster on which the application is running. To do so, you must have the credentials to access the cluster in a [kubeconfig file](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/).
 
 Use the following command to set this configuration:
 
 ```shell
 kind export kubeconfig --name demo
+```
+
+Output:
+
+```shell
 Set kubectl context to "kind-demo"
 ```
 
@@ -89,18 +104,27 @@ The Socks Shop application can be deployed on a Kubernetes cluster applying the 
 
 ```shell
 kubectl apply -f https://raw.githubusercontent.com/microservices-demo/microservices-demo/master/deploy/kubernetes/complete-demo.yaml
+```
 
+Output (some output omitted for brevity):
+
+```shell
 deployment.apps/carts created
 service/carts created
 deployment.apps/carts-db created
 service/carts-db created
+...
 ```
-(Some output omitted for brevity)
 
 Notice the Socks Shop application is deployed in the `sock-shop` namespace. To facilitate accessing the application's resources you can set this namespace as the default for `kubectl` with the following command:
 
 ```shell
 kubectl config set-context --current --namespace sock-shop
+```
+
+Output:
+
+```shell
 Context "kind-demo" modified.
 ```
 
@@ -110,6 +134,11 @@ We will create a ingress mapping requests to the local host to the front-end ser
 
 ```shell
 kubectl apply -f manifests/front-end-ingress.yaml
+```
+
+Output:
+
+```shell
 ingress.networking.k8s.io/front-end-ingress created
 ```
 
@@ -117,21 +146,27 @@ You can test the access to the `front-end` service with the following command:
 
 ```shell
 curl -s localhost:38080/front-end/catalogue/3395a43e-2d88-40de-b95f-e00e1502085b
+```
+
+Output:
+
+```json
 {"id":"3395a43e-2d88-40de-b95f-e00e1502085b","name":"Colourful","description":"proident occaecat irure et excepteur labore minim nisi amet irure","imageUrl":["/catalogue/images/colourful_socks.jpg","/catalogue/images/colourful_socks.jpg"],"price":18,"count":438,"tag":["brown","blue"]}
 ```
 
-Notice that the url uses `localhost` as the IP address and `38080` as the port. This is the port exposed by the cluster to access the ingress.
-If you changed the port mapping in kind you must use that port. 
+Notice that the URL uses `localhost` as the IP address and `38080` as the port. This is the port exposed by the cluster to access the ingress.
+If you changed the port mapping in kind you must use that port.
 
-Also notice the URL includes the `/front-end` prefix which is used by the ingress for mapping requests to the `front-end` service.
+Also, notice the URL includes the `/front-end` prefix which is used by the ingress for mapping requests to the `front-end` service.
 
 > Using an ingress does not work for accessing the front-end service from a browser, as the URL re-write rule breaks the links to in the HTML document.
 
 
 ## The test script
 
-Le’ts start with a simple chaos test [scripts/test-front-end.js](scripts/test-front-end.js). The test applies a load to the Front-end service requesting the description of products from the Catalogue service. At the same time, it injects faults in the Catalogue service.
-The faults will cause delays in the requests (up to 100ms over the normal response time) and eventually returned HTTP 500 errors. 
+Let's start with a simple chaos test [scripts/test-front-end.js](scripts/test-front-end.js). The test applies a load to the Front-end service requesting the description of products from the Catalogue service. At the same time, it injects faults in the Catalogue service.
+
+The faults will cause delays in the requests (up to 100ms over the normal response time) and eventually return the HTTP 500 errors. 
 
 ![test](images/test.png)
 
@@ -197,7 +232,7 @@ load   ✓ [======================================] 000/005 VUs  1m0s           
      vus_max........................: 6       min=6       max=6 
 ```
 
-Notice this two metrics from the output above.
+Notice these two metrics from the output above:
 
 ```shell
 checks.........................: 100.00% ✓ 1201      ✗ 0
@@ -266,13 +301,9 @@ checks.........................: 89.41% ✓ 1073      ✗ 127
 http_req_duration..............: avg=101.43ms min=5.78ms  med=109.45ms max=125.46ms p(90)=112.72ms p(95)=113.67ms
 ```
 
-The `checks` metric now shows that the number of successful request was nearly `90%`, indicating that roughly `10%` of requests failed, as expected.
-Also the percentile 95 of the `http_req_duration` is now `113.67ms`, reflecting the `100ms` added by the fault injection.
+The `checks` metric now shows that the number of successful requests was nearly `90%`, indicating that roughly `10%` of requests failed, as expected.
+Also, the percentile 95 of the `http_req_duration` is now `113.67ms`, reflecting the `100ms` added by the fault injection.
 
 ## Next steps
 
-* Learn more about k6 and load testing
-
-
-
-
+* Learn more [about k6 and load testing](https://github.com/grafana/k6-learn).

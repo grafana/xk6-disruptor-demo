@@ -1,7 +1,7 @@
 import http from 'k6/http';
 import { check } from 'k6';
 import { ServiceDisruptor } from 'k6/x/disruptor'
-
+import { randomItem } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
 
 const products = [
  'a0a4f044-b040-410d-8ead-4de0446aec7e',
@@ -16,6 +16,9 @@ const products = [
 ];
 
 export const options = {
+   thresholds: {
+       checks: ['rate>0.97'],
+    },
     scenarios: {
         load: {
           executor: 'constant-arrival-rate',
@@ -37,10 +40,9 @@ export const options = {
 }
 
 export function requestProduct() {
-   const item = products[Math.floor(Math.random() * products.length)];
+   const item = randomItem(products);
    const resp = http.get(`http://${__ENV.SVC_URL}/catalogue/${item}`);
-   const body = JSON.parse(resp.body);
-   check(body, {
+   check(resp.json(), {
        'No errors': (body) => !('error' in body),
    });
    

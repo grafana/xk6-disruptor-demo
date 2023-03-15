@@ -299,7 +299,7 @@ load   ✓ [======================================] 000/005 VUs  1m0s           
      ✗ No errors
       ↳  89% — ✓ 1073 / ✗ 127
 
-     checks.........................: 89.41% ✓ 1073      ✗ 127 
+   ✗ checks.........................: 89.41% ✓ 1073      ✗ 127
      data_received..................: 664 kB 10 kB/s
      data_sent......................: 164 kB 2.5 kB/s
      http_req_blocked...............: avg=18.04µs  min=5.95µs  med=10.28µs  max=892.64µs p(90)=13.84µs  p(95)=17.08µs 
@@ -316,17 +316,26 @@ load   ✓ [======================================] 000/005 VUs  1m0s           
      iterations.....................: 1201   18.391692/s
      vus............................: 1      min=1       max=6 
      vus_max........................: 6      min=6       max=6 
+
+ERRO[0062] some thresholds have failed
 ```
 
 Notice the change in the baseline metrics:
 
 ```
-checks.........................: 89.41% ✓ 1073      ✗ 127 
-http_req_duration..............: avg=101.43ms min=5.78ms  med=109.45ms max=125.46ms p(90)=112.72ms p(95)=113.67ms
+✗ checks.........................: 89.41% ✓ 1073      ✗ 127
+```
+
+and
+
+```
+  http_req_duration..............: avg=101.43ms min=5.78ms  med=109.45ms max=125.46ms p(90)=112.72ms p(95)=113.67ms
 ```
 
 The `checks` metric now shows that the number of successful requests was nearly `90%`, indicating that roughly `10%` of requests failed, as expected.
 Also, the percentile 95 of the `http_req_duration` is now `113.67ms`, reflecting the `100ms` added by the fault injection.
+
+Moreover, notice the message `ERRO[0062] some thresholds have failed` indicating the ratio of successful checks is below the acceptance level of `97%` and therefore the test failed.
 
 ## Next steps
 

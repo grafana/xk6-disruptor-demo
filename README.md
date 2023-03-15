@@ -128,6 +128,30 @@ Output:
 Context "kind-demo" modified.
 ```
 
+The application can take several minutes to fully deploy. You can check the status of the pods using the following command:
+```shel
+kubectl wait pod --for=condition=Ready --all --timeout=60s
+```
+
+It is poosible you receive an output similar to the one shown below, on which some pods are not yet ready. Repeat the command above until all pods return `condition met`. You can also increase the maximum time the command will wait for the condition to be satisfied by changing the `--timeout` parameter.
+
+```
+pod/carts-7bbf9dc945-9fpbr condition met
+pod/carts-db-67f744dd5f-8htrz condition met
+pod/catalogue-db-6b55d8cdb7-4lrlq condition met
+pod/front-end-7f5c844b4c-f8zj6 condition met
+pod/orders-74f65597c5-9d6pp condition met
+pod/orders-db-b76d8c54c-jd8lj condition met
+pod/queue-master-9fc44d68d-mgg9s condition met
+pod/rabbitmq-6576689cc9-9gs5t condition met
+pod/session-db-695f7fd48f-bslkm condition met
+pod/shipping-79c568cddc-qzjlp condition met
+pod/user-db-b8dfb847c-gl8zc condition met
+timed out waiting for the condition on pods/catalogue-6479dbb5bd-dzlnb
+timed out waiting for the condition on pods/payment-c7df5b49-kt8jk
+timed out waiting for the condition on pods/user-79dddf5cc9-wcrbs
+````
+
 ### Expose the Front-end service API
 
 We will create a ingress mapping requests to the local host to the front-end service. 

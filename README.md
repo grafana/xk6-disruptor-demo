@@ -35,7 +35,7 @@ Follow [official documentation](https://kubernetes.io/docs/tasks/tools/#kubectl)
 
 ### Install kind
 
-Follow the [official documentation](https://kubernetes.io/docs/tasks/tools/#kubectl) depending on your operating system.
+Follow the [official documentation](https://kind.sigs.k8s.io/docs/user/quick-start/#installation) depending on your operating system.
 
 ## Create cluster
 

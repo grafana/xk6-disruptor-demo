@@ -9,7 +9,7 @@ This tutorial assumes that you are familiar with Kubernetes concepts such as [de
 
 Even when will provide all the required commands in this tutorial, it would also be convenient if you have some familiarity with using [kubectl](https://kubernetes.io/docs/reference/kubectl/) for managing applications in Kubernetes.
 
-> :warning: The demo has been tested on Linux, it might not work with other OS.
+> :warning: The demo has been tested on Linux and Windows 11 - using a [Windows Terminal](https://apps.microsoft.com/store/detail/windows-terminal/9N0DX20HK701). It might not work with other OS.
 
 ## The case study
  
@@ -129,11 +129,12 @@ Context "kind-demo" modified.
 ```
 
 The application can take several minutes to fully deploy. You can check the status of the pods using the following command:
-```shel
+
+```shell
 kubectl wait pod --for=condition=Ready --all --timeout=60s
 ```
 
-It is poosible you receive an output similar to the one shown below, on which some pods are not yet ready. Repeat the command above until all pods return `condition met`. You can also increase the maximum time the command will wait for the condition to be satisfied by changing the `--timeout` parameter.
+It is possible you receive an output similar to the one shown below, on which some pods are not yet ready. Repeat the command above until all pods return `condition met`. You can also increase the maximum time the command will wait for the condition to be satisfied by changing the `--timeout` parameter.
 
 ```
 pod/carts-7bbf9dc945-9fpbr condition met
@@ -179,11 +180,16 @@ Output:
 ```
 
 Notice that the URL uses `localhost` as the IP address and `38080` as the port. This is the port exposed by the cluster to access the ingress.
+
 If you changed the port mapping in kind you must use that port.
 
 Also, notice the URL includes the `/front-end` prefix which is used by the ingress for mapping requests to the `front-end` service.
 
 > Using an ingress does not work for accessing the front-end service from a browser, as the URL re-write rule breaks the links to in the HTML document.
+
+If you are running on Windows OS, and the command returns a message `cmdlet Invoke-WebRequest at command pipeline position 1 Supply values for the following parameters: Uri:`, make sure you are using a [Windows Terminal](https://apps.microsoft.com/store/detail/windows-terminal/9N0DX20HK701), not Powershell, as documented on [stackoverflow](https://stackoverflow.com/questions/67102759/getting-msg-as-cmdlet-invoke-webrequest-at-command-pipeline-position-1-supply-v). Alternatively, open the browser on the URL http://localhost:38080/front-end/catalogue/3395a43e-2d88-40de-b95f-e00e1502085b and check the resulting JSON.
+
+![test](images/browser-frontend-catalogue.png)
 
 
 ## The test script
@@ -199,18 +205,34 @@ The faults will cause delays in the requests (up to 100ms over the normal respon
 
 ### Setup environment
 
-The `test-front-end.js` script expects the URL to the `front-end` service in the `SVC_URL` environment variable.
+The `test-front-end.js` script expects the URL to the `front-end` service in the `SVC_URL` environment variable. 
+
+On Linux run:
 
 ```shell
 SVC_URL="localhost:38080/front-end"
+```
+
+If you are running on Windows OS, set the environment variable on a [Windows Terminal](https://apps.microsoft.com/store/detail/windows-terminal/9N0DX20HK701):
+
+```shell
+set SVC_URL="localhost:38080/front-end"
 ```
 
 ### Run baseline
 
 We will first run the test without injecting faults.
 
+On Linux run:
+
 ```shell
 xk6-disruptor run --env SVC_URL=$SVC_URL scripts/test-front-end.js
+```
+
+If you are running on Windows OS, execute:
+
+```shell
+xk6-disruptor run --env SVC_URL=%SVC_URL% scripts/test-front-end.js
 ```
 
 You should get an output similar to the one shown below:
@@ -268,10 +290,18 @@ These metrics will be the baseline for the test.
 
 ### Run chaos test
 
-We now will set the `INJECT_FAULTS` environment variable to enable the fault injection and will run the test again:
+We now will set the `INJECT_FAULTS` environment variable to enable the fault injection and will run the test again. 
+
+On Linux run:
 
 ```shell
 xk6-disruptor run --env SVC_URL=$SVC_URL --env INJECT_FAULTS=1 scripts/test-front-end.js
+```
+
+If you are running on Windows OS, execute on a [Windows Terminal](https://apps.microsoft.com/store/detail/windows-terminal/9N0DX20HK701):
+
+```shell
+xk6-disruptor run --env SVC_URL=%SVC_URL% --env INJECT_FAULTS=1 scripts/test-front-end.js
 ```
 
 You should get an output similar to the one below:

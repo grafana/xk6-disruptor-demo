@@ -55,7 +55,7 @@ export function injectFaults(data) {
     }
 
     const fault = {
-        averageDelay: 100,
+        averageDelay: '100ms',
         errorRate: 0.1,
         errorCode: 500,
         errorBody: errorBody,
@@ -63,5 +63,5 @@ export function injectFaults(data) {
     };
 
     const svcDisruptor = new ServiceDisruptor('catalogue', 'sock-shop'); (6)
-    svcDisruptor.injectHTTPFaults(fault, 60);
+    svcDisruptor.injectHTTPFaults(fault, '60s');
 }

@@ -1,0 +1,30 @@
+{
+  "title": "k6 Disruptor Interactive Demo",
+  "description": "Learn how to perform chaos tests",
+  "backend": {
+    "imageid": "kubernetes-k3s-1node-4GB"
+  },
+  "details": {
+    "intro": {
+      "title": "Set up demo environment",
+      "text": "intro/text.md",
+      "foreground": "intro/foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Application architecture",
+        "text": "step1/text.md"
+      },
+      {
+        "title": "Baseline test",
+        "text": "step2/text.md",
+        "foreground": "step2/foreground.sh"
+      },
+      {
+        "title": "Inject faults",
+        "text": "step3/text.md",
+        "foreground": "step3/foreground.sh"
+      }
+    ]
+  }
+}

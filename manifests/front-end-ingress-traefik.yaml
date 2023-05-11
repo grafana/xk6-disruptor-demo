@@ -1,0 +1,29 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  namespace: sock-shop
+  name: strip-prefix
+spec:
+  stripPrefix:
+    prefixes:
+      - /front-end
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: sock-shop
+  name: front-end-ingress
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: sock-shop-strip-prefix@kubernetescrd  # {{ns}}-{{name}}@kubernetescrd
+spec:
+  rules:
+    - http:
+        paths:
+          - pathType: Prefix
+            path: /front-end
+            backend:
+              service:
+                name: front-end
+                port:
+                  number: 80

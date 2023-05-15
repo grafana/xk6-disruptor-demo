@@ -30,4 +30,16 @@ You should see something like:
 }
 ```
 
-Did that work? If so, let's inject some faults in the `Catalogue` service.
+Did that work? If so, let's click `Next` and start testing.
+
+### If you didn't get the expected response
+
+The sock-shop demo application may still be deploying. Try running
+
+```
+kubectl get pods -n sock-shop
+```{{exec}}
+
+And ensure all pods are `Running` and fully `Ready`.
+
+Still stuck? You may have hit a bug in our demo environment! Please let us know what happened by [opening an issue](https://github.com/grafana/xk6-disruptor-demo/issues).

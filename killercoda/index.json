@@ -22,8 +22,7 @@
       },
       {
         "title": "Inject faults",
-        "text": "step3/text.md",
-        "foreground": "step3/foreground.sh"
+        "text": "step3/text.md"
       }
     ]
   }

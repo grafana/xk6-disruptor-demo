@@ -20,7 +20,7 @@ During this interactive demo, we will:
 Step one is being taking care of on the right panel as you read this. After the deployment has been initiated successfully, you can check the deployment progress by running:
 
 ```
-kubectl get pods --all-namespaces
+kubectl get pods -n sock-shop
 ```{{exec}}
 
 All pods ready? Click `Start` to move on to the next step.

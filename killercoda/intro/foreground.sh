@@ -3,15 +3,15 @@ curl -sSLO "https://raw.githubusercontent.com/roobre/xk6-disruptor-demo/main/kil
 #
 # We'll now install the xk6-disruptor binary for you.
 #
-./install.sh xk6_disruptor
+./install.sh xk6-disruptor
 #
 # Next, let's install the Sock Shop demo application.
 #
-./install.sh socks_shop
+./install.sh sock-shop
 #
 # Now let's create an ingress for that demo application.
 #
-./install.sh socks_shop_ingress
+./install.sh sock-shop-ingress
 
 # ===================================================================================
 # Everything set! Kubernetes is working hard to get the demo application ready.

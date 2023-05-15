@@ -8,11 +8,11 @@ function error() {
   exit 1
 }
 
-function xk6_disruptor() {
+function xk6-disruptor() {
   # TODO: Set up renovate to upgrade these.
   XK6_DISRUPTOR_REPO=${XK6_DISRUPTOR_REPO:-grafana/xk6-disruptor}
   XK6_DISRUPTOR_VERSION=${XK6_DISRUPTOR_VERSION:-v0.3.1}
-  XK6_DISRUPTOR_URL=${XK6_DISRUPTOR_URL:-https://github.com/grafana/xk6-disruptor/releases/download/$XK6_DISRUPTOR_VERSION/xk6-disruptor-$XK6_DISRUPTOR_VERSION-linux-amd64.tar.gz}
+  XK6_DISRUPTOR_URL=${XK6_DISRUPTOR_URL:-https://github.com/$XK6_DISRUPTOR_REPO/releases/download/$XK6_DISRUPTOR_VERSION/xk6-disruptor-$XK6_DISRUPTOR_VERSION-linux-amd64.tar.gz}
   XK6_DISRUPTOR_INSTALL_PATH=${XK6_DISRUPTOR_INSTALL_PATH:-/usr/local/bin}
   echo "Downloading xk6-disruptor $XK6_DISRUPTOR_VERSION"
   curl -sSL "$XK6_DISRUPTOR_URL" |
@@ -23,7 +23,7 @@ function xk6_disruptor() {
   echo "xk6-disruptor $XK6_DISRUPTOR_VERSION installed to $XK6_DISRUPTOR_INSTALL_PATH"
 }
 
-function socks_shop() {
+function sock-shop() {
   # TODO: Set up renovate to upgrade these.
   SOCKS_SHOP_VERSION=${SOCKS_SHOP_VERSION:-master} # Latest tag (0.0.12) yields 404 for the combined manifest.
   SOCKS_SHOP_URL=${SOCKS_SHOP_URL:-https://raw.githubusercontent.com/microservices-demo/microservices-demo/$SOCKS_SHOP_VERSION/deploy/kubernetes/complete-demo.yaml}
@@ -35,8 +35,7 @@ function socks_shop() {
   echo "Deployment completed!"
 }
 
-function socks_shop_ingress() {
-  TRAEFIK_VERSION=${TRAEFIK_VERSION:-v2.10}
+function sock-shop-ingress() {
   echo "Configuring ingress for socks-shop demo application..."
 
   # TODO: Change fork URL.
@@ -47,13 +46,16 @@ function socks_shop_ingress() {
 }
 
 case $1 in
-"xk6_disruptor")
-  xk6_disruptor
+"xk6-disruptor")
+  xk6-disruptor
   ;;
-"socks_shop")
-  socks_shop
+"sock-shop")
+  sock-shop
   ;;
-"socks_shop_ingress")
-  socks_shop_ingress
+"sock-shop-ingress")
+  sock-shop-ingress
   ;;
+*)
+  echo "Unknown installable $1" >&2
+  exit 1
 esac

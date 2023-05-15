@@ -20,11 +20,6 @@ function xk6-disruptor() {
 
   mv "$XK6_DISRUPTOR_INSTALL_PATH/xk6-disruptor-linux-amd64" "$XK6_DISRUPTOR_INSTALL_PATH/xk6-disruptor"
 
-  echo "Symlinking K3s kubeconfig to the default path"
-  mkdir -p ~/.kube
-  rm ~/.kube/config 2>/dev/null || true
-  ln -s /etc/rancher/k3s/k3s.yaml ~/.kube/config
-
   echo "xk6-disruptor $XK6_DISRUPTOR_VERSION installed to $XK6_DISRUPTOR_INSTALL_PATH"
 }
 

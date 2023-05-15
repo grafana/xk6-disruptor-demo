@@ -29,7 +29,6 @@ function socks_shop() {
   SOCKS_SHOP_URL=${SOCKS_SHOP_URL:-https://raw.githubusercontent.com/microservices-demo/microservices-demo/$SOCKS_SHOP_VERSION/deploy/kubernetes/complete-demo.yaml}
 
   echo "Starting deployment of socks-shop demo application..."
-  kubectl create namespace sock-shop >/dev/null
   kubectl apply -f "$SOCKS_SHOP_URL" &>/dev/null \
     || error "deploying socks shop application"
 
@@ -39,8 +38,6 @@ function socks_shop() {
 function socks_shop_ingress() {
   TRAEFIK_VERSION=${TRAEFIK_VERSION:-v2.10}
   echo "Configuring ingress for socks-shop demo application..."
-  #kubectl apply -f "https://raw.githubusercontent.com/traefik/traefik/$TRAEFIK_VERSION/docs/content/reference/dynamic-configuration/kubernetes-crd-definition-v1.yml" &>/dev/null \
-  #  || error "applying traefik CRDs"
 
   # TODO: Change fork URL.
   kubectl apply -f "https://raw.githubusercontent.com/roobre/xk6-disruptor-demo/main/manifests/front-end-ingress-traefik.yaml" &>/dev/null \

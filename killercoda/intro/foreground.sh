@@ -14,6 +14,7 @@ curl -sSLO "https://raw.githubusercontent.com/roobre/xk6-disruptor-demo/main/kil
 ./install.sh sock-shop-ingress
 
 # ===================================================================================
-# Everything set! Kubernetes is working hard to get the demo application ready.
+# Everything is set! Kubernetes is working hard to get the demo application ready.
+# This can take several minutes. Hold tight. 
 # Check the instructions panel on the left to see how to check the deployment status.
 # ===================================================================================

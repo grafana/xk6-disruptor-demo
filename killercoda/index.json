@@ -17,8 +17,7 @@
       },
       {
         "title": "Baseline test",
-        "text": "step2/text.md",
-        "foreground": "step2/foreground.sh"
+        "text": "step2/text.md"
       },
       {
         "title": "Inject faults",

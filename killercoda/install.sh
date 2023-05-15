@@ -40,7 +40,7 @@ function socks_shop_ingress() {
   echo "Configuring ingress for socks-shop demo application..."
 
   # TODO: Change fork URL.
-  kubectl apply -f "https://raw.githubusercontent.com/roobre/xk6-disruptor-demo/main/manifests/front-end-ingress-traefik.yaml" &>/dev/null \
+  kubectl apply -f "https://raw.githubusercontent.com/roobre/xk6-disruptor-demo/main/killercoda/manifests/front-end-ingress-traefik.yaml" &>/dev/null \
     || error "creating traefik ingress"
 
   echo "Ingress configured."
@@ -57,4 +57,3 @@ case $1 in
   socks_shop_ingress
   ;;
 esac
-

@@ -6,7 +6,7 @@ We will now run the same test as before, but with fault injection enabled. To do
 
 
 ```
-xk6-disruptor run --env SVC_URL=localhost/front-end --env INJECT_FAULTS=1 ./test-front-end.js
+xk6-disruptor run --env SVC_URL=localhost --env INJECT_FAULTS=1 ./test-front-end.js
 ```{{exec}}
 
 This time, we expect the test to fail:

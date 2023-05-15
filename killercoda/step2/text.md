@@ -12,7 +12,7 @@ Feel free to take a peek at the `test-front-end.js` in the `Editor` tab!
 After that, let's use k6 to perform a baseline test of our applicaton:
 
 ```
-xk6-disruptor run --env SVC_URL=localhost/front-end ./test-front-end.js
+xk6-disruptor run --env SVC_URL=localhost ./test-front-end.js
 ```{{exec}}
 
 We expect the output of the test to look like this:

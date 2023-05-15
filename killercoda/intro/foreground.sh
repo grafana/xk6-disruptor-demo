@@ -1,5 +1,5 @@
 # Hold tight while we fetch our installer script.
-curl -sSLO "https://raw.githubusercontent.com/roobre/xk6-disruptor-demo/main/killercoda/install.sh" && chmod +x install.sh
+curl -sSLO "https://raw.githubusercontent.com/grafana/xk6-disruptor-demo/main/killercoda/install.sh" && chmod +x install.sh
 #
 # We'll now install the xk6-disruptor binary for you.
 #

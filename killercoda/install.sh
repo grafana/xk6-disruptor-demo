@@ -38,8 +38,7 @@ function sock-shop() {
 function sock-shop-ingress() {
   echo "Configuring ingress for socks-shop demo application..."
 
-  # TODO: Change fork URL.
-  kubectl apply -f "https://raw.githubusercontent.com/roobre/xk6-disruptor-demo/main/killercoda/manifests/front-end-ingress-traefik.yaml" &>/dev/null \
+  kubectl apply -f "https://raw.githubusercontent.com/grafana/xk6-disruptor-demo/main/killercoda/manifests/front-end-ingress-traefik.yaml" &>/dev/null \
     || error "creating traefik ingress"
 
   echo "Ingress configured."

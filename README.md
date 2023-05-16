@@ -26,6 +26,12 @@ You can try this demo on an interactive environment on [Killercoda](https://kill
 
 See [Socks Shop demo](demos/socks-shop/README.md) for detailed instructions for installing this application and testing HTTP fault injection in this application
 
+### Online boutique (gRPC fault injection)
+
+[Online Boutique](https://github.com/GoogleCloudPlatform/microservices-demo) is a cloud-first microservices demo application. The application is a web-based e-commerce app where users can browse items, add them to the cart, and purchase them. Online Boutique consists of an 11-tier microservices application.
+
+See [Online Boutique demo](demos/online-boutique/README.md) for instructions for installing this application and testing gRPC fault injection in this application.
+
 ## Installing xk6-disruptor
 
 xk6-disruptor is a k6 extension. To use it in a k6 test script, it is necessary to use a custom build of k6 that includes it. You can get the binaries for different platforms from the [xk6-disruptor github repository](https://github.com/grafana/xk6-disruptor/releases). Refer to the [Installation Guide](https://k6.io/docs/javascript-api/xk6-disruptor/get-started/installation/) for more information.
@@ -109,4 +115,8 @@ Set kubectl context to "kind-demo"
 
 ## Next steps
 
-* Learn more [about k6 and load testing](https://github.com/grafana/k6-learn).
+See [Socks Shop demo](demos/socks-shop/README.md) for detailed instructions for installing this application and testing HTTP fault injection in this application
+
+See [Online Boutique demo](demos/online-boutique/README.md) for instructions for installing this application and testing gRPC fault injection in this application.
+
+Learn more [about k6 and load testing](https://github.com/grafana/k6-learn).

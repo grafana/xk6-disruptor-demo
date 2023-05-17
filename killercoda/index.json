@@ -1,6 +1,6 @@
 {
   "title": "k6 Disruptor Interactive Demo",
-  "description": "Learn how to perform chaos tests",
+  "description": "Learn more about chaos testing with the sock-shop microservice application",
   "backend": {
     "imageid": "kubernetes-k3s-1node-4GB"
   },

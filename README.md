@@ -2,6 +2,11 @@
 
 The purpose of this repository is to offer a step-by-step guide for running [xk6-disruptor](https://github.com/grafana/xk6-disruptor) in a local development environment using a demo application.
 
+## Interactive demo
+
+You can try this demo on an interactive environment on [Killercoda](https://killercoda.com/grafana-xk6-disruptor/scenario/killercoda). We'll take care of setting up Kubernetes and the `sock-shop` demo application for you so you can focus on learning the basics of `xk6-disruptor`.
+
+If you prefer to run the demo entirely on your local machine, you can find instructions on how to proceed below.
 
 ## Before you start
 

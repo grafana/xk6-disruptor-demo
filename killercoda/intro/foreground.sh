@@ -13,10 +13,6 @@ curl -sSLO "https://raw.githubusercontent.com/grafana/xk6-disruptor-demo/main/ki
 #
 ./install.sh sock-shop-ingress
 #
-# Finally, we'll export the path for the kubeconfig file
-#
-export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-#
 # ===================================================================================
 # Everything is set! Kubernetes is working hard to get the demo application ready.
 # This can take several minutes. Hold tight. 

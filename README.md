@@ -175,7 +175,7 @@ ingress.networking.k8s.io/front-end-ingress created
 You can test the access to the `front-end` service with the following command:
 
 ```shell
-curl -s localhost:38080/front-end/catalogue/3395a43e-2d88-40de-b95f-e00e1502085b
+curl -s localhost:38080/catalogue/3395a43e-2d88-40de-b95f-e00e1502085b
 ```
 
 Output:
@@ -188,11 +188,7 @@ Notice that the URL uses `localhost` as the IP address and `38080` as the port. 
 
 If you changed the port mapping in kind you must use that port.
 
-Also, notice the URL includes the `/front-end` prefix which is used by the ingress for mapping requests to the `front-end` service.
-
-> Using an ingress does not work for accessing the front-end service from a browser, as the URL re-write rule breaks the links to in the HTML document.
-
-If you are running on Windows OS, and the command returns a message `cmdlet Invoke-WebRequest at command pipeline position 1 Supply values for the following parameters: Uri:`, make sure you are using a [Windows Terminal](https://apps.microsoft.com/store/detail/windows-terminal/9N0DX20HK701), not Powershell, as documented on [stackoverflow](https://stackoverflow.com/questions/67102759/getting-msg-as-cmdlet-invoke-webrequest-at-command-pipeline-position-1-supply-v). Alternatively, open the browser on the URL http://localhost:38080/front-end/catalogue/3395a43e-2d88-40de-b95f-e00e1502085b and check the resulting JSON.
+If you are running on Windows OS, and the command returns a message `cmdlet Invoke-WebRequest at command pipeline position 1 Supply values for the following parameters: Uri:`, make sure you are using a [Windows Terminal](https://apps.microsoft.com/store/detail/windows-terminal/9N0DX20HK701), not Powershell, as documented on [stackoverflow](https://stackoverflow.com/questions/67102759/getting-msg-as-cmdlet-invoke-webrequest-at-command-pipeline-position-1-supply-v). Alternatively, open the browser on the URL http://localhost:38080/catalogue/3395a43e-2d88-40de-b95f-e00e1502085b and check the resulting JSON.
 
 ![test](images/browser-frontend-catalogue.png)
 
@@ -215,13 +211,13 @@ The `test-front-end.js` script expects the URL to the `front-end` service in the
 On Linux run:
 
 ```shell
-SVC_URL="localhost:38080/front-end"
+SVC_URL="localhost:38080"
 ```
 
 If you are running on Windows OS, set the environment variable on a [Windows Terminal](https://apps.microsoft.com/store/detail/windows-terminal/9N0DX20HK701):
 
 ```shell
-set SVC_URL="localhost:38080/front-end"
+set SVC_URL="localhost:38080"
 ```
 
 ### Run baseline

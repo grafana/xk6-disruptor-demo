@@ -208,7 +208,7 @@ load   ✓ [======================================] 000/017 VUs  30s            
 ERRO[0052] some thresholds have failed 
 ```
 
-Notice the change with respect of the baselins:
+Notice the change with respect of the baseline:
 
 ```
 ✗ checks.........................: 90.47% ✓ 532       ✗ 56  
@@ -218,6 +218,81 @@ The `checks` metric now shows that the number of successful requests was `90%`, 
 
 Moreover, notice the message `ERRO[0062] some thresholds have failed` indicating the ratio of successful checks is below the acceptance level of `97%` and therefore the test failed.
 
+This results seems to indicate that the frontend service is not recovering from faults in the requests to the product catalog service.
+
+### Fix the issue
+
+After the results of the fault injection test revealed that the frontend service is not recovering from faults in the requests to the product catalog service, a [fix was implemented](https://github.com/grafana/microservices-demo/pull/1). This fix adds automatic retries to the requests to the catalog product service.
+
+Let's try this solution to validate if it effectively solves the problem.
+
+We first will need to update the frontend service's deployment with an [image that implements the fix](https://github.com/grafana/microservices-demo/pkgs/container/microservices-demo%2Fproductcatalogservice).
+
+```shell
+kubectl set image deployment frontend server=ghcr.io/grafana/microservices-demo/frontend:retry-aborted-requests
+```
+
+Output:
+```
+deployment.apps/frontend image updated
+```
+
+Let's run the test again:
+
+```shell
+xk6-disruptor run --env SVC_URL=$SVC_URL --env INJECT_FAULTS=1 scripts/test-front-end.js
+```
+
+Output:
+```shell
+          /\      |‾‾| /‾‾/   /‾‾/   
+     /\  /  \     |  |/  /   /  /    
+    /  \/    \    |     (   /   ‾‾\  
+   /          \   |  |\  \ |  (‾)  | 
+  / __________ \  |__| \__\ \_____/ .io
+
+  execution: local
+     script: scripts/test-frontend.js
+     output: -
+
+  scenarios: (100.00%) 2 scenarios, 101 max VUs, 10m30s max duration (incl. graceful stop):
+           * inject: 1 iterations shared among 1 VUs (maxDuration: 10m0s, exec: injectFaults, gracefulStop: 30s)
+           * load: 20.00 iterations/s for 30s (maxVUs: 5-100, exec: requestProduct, gracefulStop: 30s)
+
+
+running (00m51.1s), 000/025 VUs, 583 complete and 0 interrupted iterations
+inject ✓ [======================================] 1 VUs        00m51.1s/10m0s  1/1 shared iters
+load   ✓ [======================================] 000/024 VUs  30s             20.00 iters/s
+
+     ✗ No errors
+      ↳  99% — ✓ 581 / ✗ 1
+
+   ✓ checks.........................: 99.82% ✓ 581       ✗ 1   
+     data_received..................: 4.5 MB 88 kB/s
+     data_sent......................: 58 kB  1.1 kB/s
+     dropped_iterations.............: 19     0.372007/s
+     http_req_blocked...............: avg=30.91µs  min=6.7µs   med=9.91µs   max=1.93ms   p(90)=13.38µs  p(95)=19.7µs  
+     http_req_connecting............: avg=15.05µs  min=0s      med=0s       max=1.77ms   p(90)=0s       p(95)=0s      
+     http_req_duration..............: avg=553.63ms min=3.18ms  med=489.76ms max=1.99s    p(90)=1.08s    p(95)=1.23s   
+       { expected_response:true }...: avg=554.58ms min=9.27ms  med=489.82ms max=1.99s    p(90)=1.08s    p(95)=1.23s   
+     http_req_failed................: 0.17%  ✓ 1         ✗ 581 
+     http_req_receiving.............: avg=977.79µs min=62.11µs med=211.15µs max=99.26ms  p(90)=588.15µs p(95)=844.62µs
+     http_req_sending...............: avg=46.92µs  min=25.48µs med=43.06µs  max=265.56µs p(90)=58.94µs  p(95)=69.11µs 
+     http_req_tls_handshaking.......: avg=0s       min=0s      med=0s       max=0s       p(90)=0s       p(95)=0s      
+     http_req_waiting...............: avg=552.6ms  min=2.95ms  med=489.21ms max=1.98s    p(90)=1.08s    p(95)=1.23s   
+     http_reqs......................: 582    11.395172/s
+     iteration_duration.............: avg=640.66ms min=4.02ms  med=490.09ms max=51.07s   p(90)=1.08s    p(95)=1.23s   
+     iterations.....................: 583    11.414751/s
+     vus............................: 1      min=1       max=25
+     vus_max........................: 25     min=6       max=25
+     ```
+```
+
+We can see now the `checks` metric shows a success rate of almost `100%`, and the threshold has not failed, confirming the fix works as expected.
+```
+✓ checks.........................: 99.82% ✓ 581       ✗ 1   
+```
+
 ## Next steps
 
-Lear more about fault injection using [xk6-disruptor](https://k6.io/docs/javascript-api/xk6-disruptor/) 
+Lear more about fault injection using [xk6-disruptor](https://k6.io/docs/javascript-api/xk6-disruptor/)

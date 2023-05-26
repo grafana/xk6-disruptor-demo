@@ -247,4 +247,4 @@ Moreover, notice the message `ERRO[0062] some thresholds have failed` indicating
 
 ## Next steps
 
-Lear more about fault injection using [xk6-disruptor](https://k6.io/docs/javascript-api/xk6-disruptor/) 
+Lear more about fault injection using [xk6-disruptor](https://k6.io/docs/javascript-api/xk6-disruptor/)

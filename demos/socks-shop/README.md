@@ -96,9 +96,11 @@ If you are running on Windows OS, and the command returns a message `cmdlet Invo
 
 ## The test script
 
-Let's start with a simple chaos test [scripts/test-front-end.js](scripts/test-front-end.js). The test applies a load to the Front-end service requesting the description of products from the Catalogue service. At the same time, it injects faults in the Catalogue service.
+Let's start with a simple chaos test [scripts/test-front-end.js](scripts/test-front-end.js). The test applies a load to the Front-end service requesting the description of products from the Catalogue service. 
 
-The faults will cause delays in the requests (up to 100ms over the normal response time) and eventually return the HTTP 500 errors. 
+At the same time, it injects faults in the Catalogue service. The faults will cause delays in the requests (up to `100ms` over the normal response time) and eventually return the HTTP 500 errors.
+
+The test also checks the return code of the requests to the frontend service and defines a threshold for the number of successful request to be at least `97%`. If this threshold is not satisfied, the test will fail.
 
 ![test](images/test.png)
 

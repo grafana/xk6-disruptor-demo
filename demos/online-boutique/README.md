@@ -82,11 +82,14 @@ ingress.networking.k8s.io/frontend-ingress created
 
 ## The test script
 
-Let's start with a simple test [scripts/test-frontend.js](scripts/test-frontend.js). The test applies a load to the frontend service requesting the description of products from the Catalogue service. At the same time, it injects faults in the product catalog service.
+Let's start with a simple test [scripts/test-frontend.js](scripts/test-frontend.js). The test applies a load to the frontend service requesting the description of products from the product catalog service. 
 
-The faults will cause delays in the requests (up to 100ms over the normal response time) and eventually return the HTTP 500 errors. 
+At the same time, it injects faults in the product catalog service. The faults will cause `10%` of the request to the product catalog service to fail with an status code `ABORTED`.
+
+The test also checks the return code of the requests to the frontend service and defines a threshold for the number of successful request to be at least `97%`. If this threshold is not satisfied, the test will fail.
 
 ![test](images/test.png)
+
 
 > Notice the injection of faults in the test is conditioned to the environment variable `INJECT_FAULTS` being defined with a value `1`. If this variable is not defined or if its value is not `1`, the fault injection is skipped. This allows running the same test with and without faults to facilitate comparison.
 

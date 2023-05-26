@@ -107,7 +107,19 @@ We will first run the test without injecting faults.
 xk6-disruptor run --env SVC_URL=$SVC_URL scripts/test-frontend.js
 ```
 
-You should get an output similar to the one shown below:
+<details>
+
+<summary>
+
+The `checks` metric in the output indicates `100%` of requests were successful:
+
+```
+✓ checks.........................: 100.00% ✓ 599       ✗ 0  
+```
+
+(click for detailed output)
+</summary>
+
 
 ```
           /\      |‾‾| /‾‾/   /‾‾/   
@@ -150,8 +162,7 @@ load   ✓ [======================================] 000/007 VUs  30s            
      vus............................: 7       min=5       max=7
      vus_max........................: 8       min=6       max=8
 ```
-
-The `checks` metric indicates `100%` of requests were successful.
+</details>
 
 ### Run chaos test
 
@@ -161,7 +172,24 @@ We now will set the `INJECT_FAULTS` environment variable to enable the fault inj
 xk6-disruptor run --env SVC_URL=$SVC_URL --env INJECT_FAULTS=1 scripts/test-frontend.js
 ```
 
-You should get an output similar to the one below:
+Notice the change with respect of the baseline:
+
+<details>
+
+<summary>
+
+```
+✗ checks.........................: 90.47% ✓ 532       ✗ 56
+```
+
+The `checks` metric now shows that the number of successful requests was `90%`, indicating that roughly `10%` of requests failed, as expected.
+
+Also, notice the message `ERRO[0062] some thresholds have failed` indicating the ratio of successful checks is below the acceptance level of `97%` and therefore the test failed.
+
+(click for detailed output)
+
+</summary>
+
 
 ```
           /\      |‾‾| /‾‾/   /‾‾/   
@@ -207,16 +235,7 @@ load   ✓ [======================================] 000/017 VUs  30s            
 
 ERRO[0052] some thresholds have failed 
 ```
-
-Notice the change with respect of the baseline:
-
-```
-✗ checks.........................: 90.47% ✓ 532       ✗ 56  
-```
-
-The `checks` metric now shows that the number of successful requests was `90%`, indicating that roughly `10%` of requests failed, as expected.
-
-Moreover, notice the message `ERRO[0062] some thresholds have failed` indicating the ratio of successful checks is below the acceptance level of `97%` and therefore the test failed.
+</details>
 
 This results seems to indicate that the frontend service is not recovering from faults in the requests to the product catalog service.
 
@@ -243,7 +262,20 @@ Let's run the test again:
 xk6-disruptor run --env SVC_URL=$SVC_URL --env INJECT_FAULTS=1 scripts/test-front-end.js
 ```
 
-Output:
+<details>
+
+<summary>
+
+In the Output we can see now the `checks` metric shows a success rate of almost `100%`, and the threshold has not failed, confirming the fix works as expected.
+
+```
+✓ checks.........................: 99.82% ✓ 581       ✗ 1
+```
+
+(click for detailed output)
+
+</summary>
+
 ```shell
           /\      |‾‾| /‾‾/   /‾‾/   
      /\  /  \     |  |/  /   /  /    
@@ -267,31 +299,28 @@ load   ✓ [======================================] 000/024 VUs  30s            
      ✗ No errors
       ↳  99% — ✓ 581 / ✗ 1
 
-   ✓ checks.........................: 99.82% ✓ 581       ✗ 1   
-     data_received..................: 4.5 MB 88 kB/s
-     data_sent......................: 58 kB  1.1 kB/s
-     dropped_iterations.............: 19     0.372007/s
-     http_req_blocked...............: avg=30.91µs  min=6.7µs   med=9.91µs   max=1.93ms   p(90)=13.38µs  p(95)=19.7µs  
-     http_req_connecting............: avg=15.05µs  min=0s      med=0s       max=1.77ms   p(90)=0s       p(95)=0s      
-     http_req_duration..............: avg=553.63ms min=3.18ms  med=489.76ms max=1.99s    p(90)=1.08s    p(95)=1.23s   
-       { expected_response:true }...: avg=554.58ms min=9.27ms  med=489.82ms max=1.99s    p(90)=1.08s    p(95)=1.23s   
-     http_req_failed................: 0.17%  ✓ 1         ✗ 581 
-     http_req_receiving.............: avg=977.79µs min=62.11µs med=211.15µs max=99.26ms  p(90)=588.15µs p(95)=844.62µs
-     http_req_sending...............: avg=46.92µs  min=25.48µs med=43.06µs  max=265.56µs p(90)=58.94µs  p(95)=69.11µs 
-     http_req_tls_handshaking.......: avg=0s       min=0s      med=0s       max=0s       p(90)=0s       p(95)=0s      
-     http_req_waiting...............: avg=552.6ms  min=2.95ms  med=489.21ms max=1.98s    p(90)=1.08s    p(95)=1.23s   
-     http_reqs......................: 582    11.395172/s
-     iteration_duration.............: avg=640.66ms min=4.02ms  med=490.09ms max=51.07s   p(90)=1.08s    p(95)=1.23s   
-     iterations.....................: 583    11.414751/s
-     vus............................: 1      min=1       max=25
-     vus_max........................: 25     min=6       max=25
-     ```
+   ✓ checks.........................: 99.82% ✓ 581       ✗ 1
+
+  data_received..................: 4.5 MB 88 kB/s
+  data_sent......................: 58 kB  1.1 kB/s
+  dropped_iterations.............: 19     0.372007/s
+  http_req_blocked...............: avg=30.91µs  min=6.7µs   med=9.91µs   max=1.93ms   p(90)=13.38µs  p(95)=19.7µs  
+  http_req_connecting............: avg=15.05µs  min=0s      med=0s       max=1.77ms   p(90)=0s       p(95)=0s      
+  http_req_duration..............: avg=553.63ms min=3.18ms  med=489.76ms max=1.99s    p(90)=1.08s    p(95)=1.23s   
+    { expected_response:true }...: avg=554.58ms min=9.27ms  med=489.82ms max=1.99s    p(90)=1.08s    p(95)=1.23s   
+  http_req_failed................: 0.17%  ✓ 1         ✗ 581 
+  http_req_receiving.............: avg=977.79µs min=62.11µs med=211.15µs max=99.26ms  p(90)=588.15µs p(95)=844.62µs
+  http_req_sending...............: avg=46.92µs  min=25.48µs med=43.06µs  max=265.56µs p(90)=58.94µs  p(95)=69.11µs 
+  http_req_tls_handshaking.......: avg=0s       min=0s      med=0s       max=0s       p(90)=0s       p(95)=0s      
+  http_req_waiting...............: avg=552.6ms  min=2.95ms  med=489.21ms max=1.98s    p(90)=1.08s    p(95)=1.23s   
+  http_reqs......................: 582    11.395172/s
+  iteration_duration.............: avg=640.66ms min=4.02ms  med=490.09ms max=51.07s   p(90)=1.08s    p(95)=1.23s   
+  iterations.....................: 583    11.414751/s
+  vus............................: 1      min=1       max=25
+  vus_max........................: 25     min=6       max=25
 ```
 
-We can see now the `checks` metric shows a success rate of almost `100%`, and the threshold has not failed, confirming the fix works as expected.
-```
-✓ checks.........................: 99.82% ✓ 581       ✗ 1   
-```
+</details>
 
 ## Next steps
 

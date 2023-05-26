@@ -121,7 +121,21 @@ We will first run the test without injecting faults.
 xk6-disruptor run --env SVC_URL=$SVC_URL scripts/test-front-end.js
 ```
 
-You should get an output similar to the one shown below:
+
+<details>
+
+<summary>
+
+Notice these two metrics from the output:
+
+```shell
+checks.........................: 100.00% ✓ 1201      ✗ 0
+http_req_duration..............: avg=9.37ms  min=5.34ms  med=8.13ms   max=221.39ms p(90)=10.38ms  p(95)=11.29ms
+```
+
+(click for detailed output)
+
+</summary>
 
 ```
           /\      |‾‾| /‾‾/   /‾‾/   
@@ -164,12 +178,7 @@ load   ✓ [======================================] 000/005 VUs  1m0s           
      vus_max........................: 6       min=6       max=6 
 ```
 
-Notice these two metrics from the output above:
-
-```shell
-checks.........................: 100.00% ✓ 1201      ✗ 0
-http_req_duration..............: avg=9.37ms  min=5.34ms  med=8.13ms   max=221.39ms p(90)=10.38ms  p(95)=11.29ms
-```
+</details>
 
 The `checks` metric indicates `100%` of requests were successful. The percentile 95 of `http_req_duration` is `11.29ms `.
 These metrics will be the baseline for the test.
@@ -182,7 +191,20 @@ We now will set the `INJECT_FAULTS` environment variable to enable the fault inj
 xk6-disruptor run --env SVC_URL=$SVC_URL --env INJECT_FAULTS=1 scripts/test-front-end.js
 ```
 
-You should get an output similar to the one below:
+<details>
+
+<summary>
+
+Notice the change in the baseline metrics:
+
+```
+✗ checks.........................: 89.41% ✓ 1073      ✗ 127
+  http_req_duration..............: avg=101.43ms min=5.78ms  med=109.45ms max=125.46ms p(90)=112.72ms p(95)=113.67ms
+```
+
+(click for detailed output)
+
+</summary>
 
 ```
           /\      |‾‾| /‾‾/   /‾‾/   
@@ -227,18 +249,7 @@ load   ✓ [======================================] 000/005 VUs  1m0s           
 
 ERRO[0062] some thresholds have failed
 ```
-
-Notice the change in the baseline metrics:
-
-```
-✗ checks.........................: 89.41% ✓ 1073      ✗ 127
-```
-
-and
-
-```
-  http_req_duration..............: avg=101.43ms min=5.78ms  med=109.45ms max=125.46ms p(90)=112.72ms p(95)=113.67ms
-```
+</details>
 
 The `checks` metric now shows that the number of successful requests was nearly `90%`, indicating that roughly `10%` of requests failed, as expected.
 Also, the percentile 95 of the `http_req_duration` is now `113.67ms`, reflecting the `100ms` added by the fault injection.

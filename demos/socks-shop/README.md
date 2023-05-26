@@ -19,7 +19,7 @@ kubectl apply -f https://raw.githubusercontent.com/microservices-demo/microservi
 
 Output (some output omitted for brevity):
 
-```shell
+```
 deployment.apps/carts created
 service/carts created
 deployment.apps/carts-db created
@@ -35,7 +35,7 @@ kubectl config set-context --current --namespace sock-shop
 
 Output:
 
-```shell
+```
 Context "kind-demo" modified.
 ```
 
@@ -74,7 +74,7 @@ kubectl apply -f manifests/socks-shop-frontend-ingress.yaml
 
 Output:
 
-```shell
+```
 ingress.networking.k8s.io/socks-shop-frontend-ingress created
 ```
 
@@ -133,7 +133,7 @@ xk6-disruptor run --env SVC_URL=$SVC_URL scripts/test-front-end.js
 
 Notice these two metrics from the output:
 
-```shell
+```
 checks.........................: 100.00% ✓ 1201      ✗ 0
 http_req_duration..............: avg=9.37ms  min=5.34ms  med=8.13ms   max=221.39ms p(90)=10.38ms  p(95)=11.29ms
 ```

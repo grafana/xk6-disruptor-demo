@@ -15,7 +15,7 @@ kubectl create namespace boutique
 ```
 Output:
 
-```shell
+```
 namespaces/boutique created
 ```
 
@@ -27,7 +27,7 @@ kubectl config set-context --current --namespace boutique
 
 Output:
 
-```shell
+```
 Context "kind-demo" modified.
 ```
 
@@ -38,7 +38,7 @@ kubectl apply -f https://raw.githubusercontent.com/GoogleCloudPlatform/microserv
 ```
 
 Output (some output omitted for brevity):
-```shell
+```
 deployment.apps/emailservice created
 service/emailservice created
 deployment.apps/checkoutservice created
@@ -47,7 +47,7 @@ service/checkoutservice created
 ```
 
 The application can take several minutes to fully deploy. You can check the status of the pods using the following command:
-```shel
+```shell
 kubectl wait pod --for=condition=Ready --all --timeout=60s
 ```
 
@@ -77,7 +77,7 @@ kubectl apply -f manifests/frontend-ingress.yaml
 
 Output:
 
-```shell
+```
 ingress.networking.k8s.io/frontend-ingress created
 ```
 
@@ -280,7 +280,7 @@ In the Output we can see now the `checks` metric shows a success rate of almost 
 
 </summary>
 
-```shell
+```
           /\      |‾‾| /‾‾/   /‾‾/   
      /\  /  \     |  |/  /   /  /    
     /  \/    \    |     (   /   ‾‾\  

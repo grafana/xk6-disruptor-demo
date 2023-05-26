@@ -62,7 +62,7 @@ kind create cluster --name demo --config setup/kind-config.yaml
 
 Output:
 
-```shell
+```
 Creating cluster "demo" ...
  ✓ Ensuring node image (kindest/node:v1.24.0) 🖼
  ✓ Preparing nodes 📦  
@@ -90,7 +90,7 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main
 
 Output (some omitted for brevity):
 
-```shell
+```
 namespace/ingress-nginx created
 serviceaccount/ingress-nginx created
 serviceaccount/ingress-nginx-admission created
@@ -109,7 +109,7 @@ kind export kubeconfig --name demo
 
 Output:
 
-```shell
+```
 Set kubectl context to "kind-demo"
 ```
 

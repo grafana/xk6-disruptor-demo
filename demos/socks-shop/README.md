@@ -6,6 +6,9 @@ This demo shows how to inject HTTP faults in a Kubernetes service.
  ![Socks-shop architecture](./images/socks-shop.png)
 
 
+ > Before you start, ensure you have configured your [local environment](/README.md#setup-test-environment)
+
+
 ## Install the Socks Shop application
 
 The Socks Shop application can be deployed on a Kubernetes cluster applying the manifest with all the required resources using the following command:

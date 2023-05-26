@@ -4,6 +4,7 @@ This demo shows how to inject gRPC faults into a Kubernetes service.
 
 ![Online Boutique Architecture](images/online-boutique.png)
 
+ > Before you start, ensure you have configured your [local environment](/README.md#setup-test-environment)
 
 ## Install the Online Boutique application
 

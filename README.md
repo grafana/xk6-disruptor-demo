@@ -32,15 +32,13 @@ See [Socks Shop demo](demos/socks-shop/README.md) for detailed instructions for 
 
 See [Online Boutique demo](demos/online-boutique/README.md) for instructions for installing this application and testing gRPC fault injection in this application.
 
-## Installing xk6-disruptor
+## Setup test environment
+
+### Installing xk6-disruptor
 
 xk6-disruptor is a k6 extension. To use it in a k6 test script, it is necessary to use a custom build of k6 that includes it. You can get the binaries for different platforms from the [xk6-disruptor github repository](https://github.com/grafana/xk6-disruptor/releases). Refer to the [Installation Guide](https://k6.io/docs/javascript-api/xk6-disruptor/get-started/installation/) for more information.
 
 > The rest of this tutorial assumes `xk6-disruptor` binary is available in the system path. In other words, you can invoke it just by typing `xk6-disruptor`. If this is not the case, you will have to modify the commands in this tutorial accordingly.
-
-## Setup test environment
-
-For this demo, we will be using a local Kubernetes cluster deployed using [Kind](https://kind.sigs.k8s.io/). Kind is a tool to run local Kubernetes clusters using Docker containers to emulate nodes.
 
 For the setup, you will also need the `kubectl` tool.
 
@@ -49,6 +47,8 @@ For the setup, you will also need the `kubectl` tool.
 Follow [official documentation](https://kubernetes.io/docs/tasks/tools/#kubectl) depending on your operating system.
 
 ### Install kind
+
+For this demo, we will be using a local Kubernetes cluster deployed using [Kind](https://kind.sigs.k8s.io/). Kind is a tool to run local Kubernetes clusters using Docker containers to emulate nodes.
 
 Follow the [official documentation](https://kind.sigs.k8s.io/docs/user/quick-start/#installation) depending on your operating system.
 

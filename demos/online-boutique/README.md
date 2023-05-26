@@ -167,7 +167,7 @@ load   ✓ [======================================] 000/007 VUs  30s            
 ```
 </details>
 
-### Run chaos test
+### Run fault injection test
 
 We now will set the `INJECT_FAULTS` environment variable to enable the fault injection and will run the test again:
 

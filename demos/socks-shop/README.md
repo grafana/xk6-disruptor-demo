@@ -96,7 +96,7 @@ If you are running on Windows OS, and the command returns a message `cmdlet Invo
 
 ## The test script
 
-Let's start with a simple chaos test [scripts/test-front-end.js](scripts/test-front-end.js). The test applies a load to the Front-end service requesting the description of products from the Catalogue service. 
+Let's start with a simple fault injection test [scripts/test-front-end.js](scripts/test-front-end.js). The test applies a load to the Front-end service requesting the description of products from the Catalogue service.
 
 At the same time, it injects faults in the Catalogue service. The faults will cause delays in the requests (up to `100ms` over the normal response time) and eventually return the HTTP 500 errors.
 
@@ -185,7 +185,7 @@ load   ✓ [======================================] 000/005 VUs  1m0s           
 The `checks` metric indicates `100%` of requests were successful. The percentile 95 of `http_req_duration` is `11.29ms `.
 These metrics will be the baseline for the test.
 
-### Run chaos test
+### Run fault injection test
 
 We now will set the `INJECT_FAULTS` environment variable to enable the fault injection and will run the test again:
 

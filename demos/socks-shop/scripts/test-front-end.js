@@ -62,6 +62,6 @@ export function injectFaults(data) {
         exclude: '/health',
     };
 
-    const svcDisruptor = new ServiceDisruptor('catalogue', 'sock-shop'); (6)
+    const svcDisruptor = new ServiceDisruptor('catalogue', 'sock-shop');
     svcDisruptor.injectHTTPFaults(fault, '60s');
 }

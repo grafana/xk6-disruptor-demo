@@ -69,13 +69,13 @@ timed out waiting for the condition on pods/user-79dddf5cc9-wcrbs
 We will create a ingress mapping requests to the local host to the front-end service. 
 
 ```shell
-kubectl apply -f manifests/socks-shop-frontend-ingress.yaml
+kubectl apply -f manifests/socks-shop-ingress.yaml
 ```
 
 Output:
 
 ```
-ingress.networking.k8s.io/socks-shop-frontend-ingress created
+ingress.networking.k8s.io/frontend-ingress created
 ```
 
 You can test the access to the `front-end` service with the following command:

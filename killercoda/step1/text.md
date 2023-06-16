@@ -2,7 +2,7 @@
 
 The sock shop application we just deployed looks like this:
 
-![Architecture diagram](https://raw.githubusercontent.com/grafana/xk6-disruptor-demo/main/images/architecture.png)
+![Architecture diagram](https://raw.githubusercontent.com/grafana/xk6-disruptor-demo/main/demos/socks-shop/images/socks-shop.png)
 
 Let's check if we can access the `Catalogue` service through the `Front-end` service:
 

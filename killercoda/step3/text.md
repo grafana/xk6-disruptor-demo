@@ -1,6 +1,6 @@
 Let's inject some faults in the `Catalogue` service:
 
-![Fault injection diagram](https://raw.githubusercontent.com/grafana/xk6-disruptor-demo/main/images/test.png)
+![Fault injection diagram](https://raw.githubusercontent.com/grafana/xk6-disruptor-demo/main/demos/socks-shop/images/test.png)
 
 We will now run the same test as before, but with fault injection enabled. To do so, run the following command:
 

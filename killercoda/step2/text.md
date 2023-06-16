@@ -4,7 +4,7 @@
 We have prepared a simple script for you to try this out, `test-front-end.js`. Let's download it now:
 
 ```
-curl -LO https://raw.githubusercontent.com/grafana/xk6-disruptor-demo/main/scripts/test-front-end.js
+curl -LO https://raw.githubusercontent.com/grafana/xk6-disruptor-demo/main/demos/socks-shop/scripts/test-front-end.js
 ```{{exec}}
 
 Feel free to take a peek at the `test-front-end.js` in the `Editor` tab!

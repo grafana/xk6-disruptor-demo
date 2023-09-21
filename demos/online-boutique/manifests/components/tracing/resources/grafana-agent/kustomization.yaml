@@ -1,0 +1,12 @@
+resources:
+- resources/deployment.yaml
+- resources/service.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+configMapGenerator:
+  - name: agent-config
+    files:
+      - ./config/grafana-agent.river
+

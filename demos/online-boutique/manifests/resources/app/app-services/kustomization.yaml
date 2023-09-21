@@ -1,0 +1,55 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - https://raw.githubusercontent.com/GoogleCloudPlatform/microservices-demo/main/kubernetes-manifests/adservice.yaml
+  - https://raw.githubusercontent.com/GoogleCloudPlatform/microservices-demo/main/kubernetes-manifests/cartservice.yaml
+  - https://raw.githubusercontent.com/GoogleCloudPlatform/microservices-demo/main/kubernetes-manifests/checkoutservice.yaml
+  - https://raw.githubusercontent.com/GoogleCloudPlatform/microservices-demo/main/kubernetes-manifests/currencyservice.yaml
+  - https://raw.githubusercontent.com/GoogleCloudPlatform/microservices-demo/main/kubernetes-manifests/emailservice.yaml
+  - https://raw.githubusercontent.com/GoogleCloudPlatform/microservices-demo/main/kubernetes-manifests/frontend.yaml
+  - https://raw.githubusercontent.com/GoogleCloudPlatform/microservices-demo/main/kubernetes-manifests/paymentservice.yaml
+  - https://raw.githubusercontent.com/GoogleCloudPlatform/microservices-demo/main/kubernetes-manifests/productcatalogservice.yaml
+  - https://raw.githubusercontent.com/GoogleCloudPlatform/microservices-demo/main/kubernetes-manifests/recommendationservice.yaml
+  - https://raw.githubusercontent.com/GoogleCloudPlatform/microservices-demo/main/kubernetes-manifests/shippingservice.yaml
+
+images:
+  - name: adservice
+    newName: gcr.io/google-samples/microservices-demo/adservice
+    newTag: v0.8.0
+  - name: cartservice
+    newName: gcr.io/google-samples/microservices-demo/cartservice
+    newTag: v0.8.0
+  - name: checkoutservice
+    newName: gcr.io/google-samples/microservices-demo/checkoutservice
+    newTag: v0.8.0
+  - name: currencyservice
+    newName: gcr.io/google-samples/microservices-demo/currencyservice
+    newTag: v0.8.0
+  - name: emailservice
+    newName: gcr.io/google-samples/microservices-demo/emailservice
+    newTag: v0.8.0
+  - name: frontend
+    newName: gcr.io/google-samples/microservices-demo/frontend
+    newTag: v0.8.0
+  - name: paymentservice
+    newName: gcr.io/google-samples/microservices-demo/paymentservice
+    newTag: v0.8.0
+  - name: productcatalogservice
+    newName: gcr.io/google-samples/microservices-demo/productcatalogservice
+    newTag: v0.8.0
+  - name: recommendationservice
+    newName: gcr.io/google-samples/microservices-demo/recommendationservice
+    newTag: v0.8.0
+  - name: shippingservice
+    newName: gcr.io/google-samples/microservices-demo/shippingservice
+    newTag: v0.8.0
+
+patches:
+- patch: |-
+    - op: add
+      path: "/metadata/labels"
+      value: {"type": "app-service"}
+  target:
+    kind: Deployment
+

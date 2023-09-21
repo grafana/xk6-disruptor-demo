@@ -1,0 +1,39 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+
+resources:
+  - resources/grafana-agent/
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+## Provide the credentials for the grafana agent to connect to the trace collector
+secretGenerator:
+  - name: grafana-agent-credentials
+    literals:
+      - TRACES_ENDPOINT=<url to the tracce collection endpoint (e.g. tempo)
+      - TRACES_USER=<user id>
+      - TRACES_API_KEY=<API Key>
+
+
+patches:
+- patch: |-
+    - op: add
+      path: "/spec/template/spec/containers/0/env/-"
+      value:
+        name: ENABLE_TRACING 
+        value: "1"
+    - op: add
+      path: "/spec/template/spec/containers/0/env/-"
+      value:
+        name: COLLECTOR_SERVICE_ADDR 
+        value: "grafana-agent:4317"
+    - op: add
+      path: "/spec/template/spec/containers/0/env/-"
+      value:
+        name: OTEL_SERVICE_NAME 
+        value: "boutique"
+
+  target:
+    kind: Deployment
+    labelSelector: "type=app-service"

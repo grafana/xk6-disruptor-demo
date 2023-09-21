@@ -4,22 +4,30 @@ This demo shows how to inject gRPC faults into a Kubernetes service.
 
 ![Online Boutique Architecture](images/online-boutique.png)
 
- > Before you start, ensure you have configured your [local environment](/README.md#setup-test-environment)
+> Before you start, ensure you have configured your [local environment](/README.md#setup-test-environment)
 
 ## Install the Online Boutique application
 
-First, let's create a namespace to isolate the application:
+The manifest with all the required resources are located in the `manifests` directory.
+We use [kustomize](https://kustomize.io/) to allow the customization of the deployment (see for example how [tracing can be enabled](#enable-tracing)).
+
+Deploy the Online Boutique application using the following command:
 
 ```shell
-kubectl create namespace boutique
-```
-Output:
-
-```
-namespaces/boutique created
+kubectl apply -k manifests
 ```
 
-Set this namespace as the default for the `kubectl` commands:
+Output (some output omitted for brevity):
+```
+namespace/boutique created
+deployment.apps/emailservice created
+service/emailservice created
+deployment.apps/checkoutservice created
+service/checkoutservice created
+...
+```
+
+All resources are created in the `boutique` namespace. Set this namespace as the default for the `kubectl` commands:
 
 ```shell
 kubectl config set-context --current --namespace boutique
@@ -29,21 +37,6 @@ Output:
 
 ```
 Context "kind-demo" modified.
-```
-
-Now, we can deploy the Online Boutique application applying the manifest with all the required resources using the following command:
-
-```shell
-kubectl apply -f https://raw.githubusercontent.com/GoogleCloudPlatform/microservices-demo/main/release/kubernetes-manifests.yaml
-```
-
-Output (some output omitted for brevity):
-```
-deployment.apps/emailservice created
-service/emailservice created
-deployment.apps/checkoutservice created
-service/checkoutservice created
-...
 ```
 
 The application can take several minutes to fully deploy. You can check the status of the pods using the following command:
@@ -67,18 +60,28 @@ It is possible you receive an output similar to the one shown below, on which so
 timed out waiting for the condition on pods/paymentservice-858776b848-rwxwp
 ```
 
-### Expose the Front-end service API
+### Enable tracing
 
-We will create a ingress mapping requests to the local host to the front-end service. 
+The Online Boutique application is fully instrumented using [Open Telemetry](https://opentelemetry.io/), but it disable by default. In order to enable it, you must edit the kustomization:
 
-```shell
-kubectl apply -f manifests/frontend-ingress.yaml
-```
+1. Edit `manifests/kustomization.yaml` and uncomment the tracing component:
 
-Output:
+```yaml
+#components:
+#  - components/tracing
+``` 
 
-```
-ingress.networking.k8s.io/frontend-ingress created
+This kustomization component enables the tracing in all services and deploys the [Grafana agent](https://grafana.com/docs/agent/) to collect traces and forward them to a traces collection endpoint.
+
+2. Edit `manifests/components/tracing/kustomization.yaml` to provide the trace collection endpoint (e.g. [Grafana Tempo](https://grafana.com/docs/tempo)) and corresponding credentials:
+
+```yaml
+secretGenerator:
+  - name: grafana-agent-credentials
+    literals:
+      - TRACES_ENDPOINT=<url to the tracce collection endpoint
+      - TRACES_USER=<user id>
+      - TRACES_API_KEY=<API Key>
 ```
 
 ## The test script
@@ -328,4 +331,5 @@ load   ✓ [======================================] 000/024 VUs  30s            
 
 ## Next steps
 
-Lear more about fault injection using [xk6-disruptor](https://k6.io/docs/javascript-api/xk6-disruptor/)
+Learn more about fault injection using [xk6-disruptor](https://k6.io/docs/javascript-api/xk6-disruptor/)
+

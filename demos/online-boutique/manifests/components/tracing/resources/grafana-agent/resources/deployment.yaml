@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.k8s.io/name: grafana-agent
+  name: grafana-agent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.k8s.io/name: grafana-agent
+  template:
+    metadata:
+      labels:
+        app.k8s.io/name: grafana-agent
+      name: grafana-agent
+    spec:
+      containers:
+      - args:
+        - run
+        - /etc/agent-config/grafana-agent.river
+        env:
+        - name: AGENT_MODE
+          value: flow
+        envFrom:
+        - secretRef:
+            name: grafana-agent-credentials
+        image: grafana/agent:v0.35.0
+        imagePullPolicy: IfNotPresent
+        name: grafana-agent
+        ports:
+        - containerPort: 4317
+          name: grpc
+          protocol: TCP
+        - containerPort: 4318
+          name: http
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /etc/agent-config/grafana-agent.river
+          name: agent-config
+          subPath: grafana-agent.river
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: agent-config
+        name: agent-config

@@ -1,0 +1,18 @@
+traces:
+    configs:
+      - name: default
+        receivers:
+            otlp:
+                protocols:
+                    grpc:
+                    http:
+        remote_write:
+          - endpoint: ${TRACES_ENDPOINT}
+            retry_on_failure:
+                enabled: true
+            basic_auth:
+              username: ${TRACES_USER}
+              password: ${TRACES_API_KEY}
+        service_graphs:
+          enabled: true
+

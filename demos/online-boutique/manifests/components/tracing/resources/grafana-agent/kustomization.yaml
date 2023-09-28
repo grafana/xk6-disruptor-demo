@@ -8,5 +8,5 @@ generatorOptions:
 configMapGenerator:
   - name: agent-config
     files:
-      - ./config/grafana-agent.river
+      - ./config/agent.yaml
 

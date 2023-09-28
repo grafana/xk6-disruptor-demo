@@ -17,11 +17,12 @@ spec:
     spec:
       containers:
       - args:
-        - run
-        - /etc/agent-config/grafana-agent.river
+        - -config.expand-env=true
+        - -config.file
+        - /etc/agent-config/agent.yaml
         env:
         - name: AGENT_MODE
-          value: flow
+          value: static
         envFrom:
         - secretRef:
             name: grafana-agent-credentials
@@ -36,9 +37,9 @@ spec:
           name: http
           protocol: TCP
         volumeMounts:
-        - mountPath: /etc/agent-config/grafana-agent.river
+        - mountPath: /etc/agent-config/agent.yaml
           name: agent-config
-          subPath: grafana-agent.river
+          subPath: agent.yaml
       volumes:
       - configMap:
           defaultMode: 420

@@ -45,3 +45,4 @@ spec:
           defaultMode: 420
           name: agent-config
         name: agent-config
+      serviceAccount: grafana-agent

@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: observability
+
+commonLabels:
+  app: cadvisor
+
+resources:
+- resources/serviceaccount.yaml
+- resources/role.yaml
+- resources/rolebinding.yaml
+- resources/daemonset.yaml
+

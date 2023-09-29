@@ -1,4 +1,9 @@
+namespace: observability
+
 resources:
+- resources/serviceaccount.yaml
+- resources/role.yaml
+- resources/rolebinding.yaml
 - resources/deployment.yaml
 - resources/service.yaml
 

@@ -2,7 +2,9 @@ apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
 
 resources:
+  - resources/namespace.yaml
   - resources/grafana-agent/
+  - resources/cadvisor/
 
 generatorOptions:
   disableNameSuffixHash: true
@@ -10,11 +12,14 @@ generatorOptions:
 ## Provide the credentials for the grafana agent to connect to the trace collector
 secretGenerator:
   - name: grafana-agent-credentials
+    namespace: observability
     literals:
       - TRACES_ENDPOINT=<url to the tracce collection endpoint (e.g. tempo)
       - TRACES_USER=<user id>
       - TRACES_API_KEY=<API Key>
-
+      - METRICS_URL=<url to the metrics collection endpoint (e.g. prometheus)
+      - METRICS_USER=<user id>
+      - METRICS_API_KEY=<API Key>
 
 patches:
 - patch: |-
@@ -27,7 +32,7 @@ patches:
       path: "/spec/template/spec/containers/0/env/-"
       value:
         name: COLLECTOR_SERVICE_ADDR 
-        value: "grafana-agent:4317"
+        value: "grafana-agent.observability:4317"
     - op: add
       path: "/spec/template/spec/containers/0/env/-"
       value: {"name": "OTEL_SERVICE_NAME", "valueFrom": {"fieldRef": {"fieldPath": "metadata.labels['app']"}}}

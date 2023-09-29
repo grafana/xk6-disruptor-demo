@@ -1,0 +1,69 @@
+integrations:
+  cadvisor:
+    enabled: true
+
+traces:
+    configs:
+      - name: default
+        receivers:
+            otlp:
+                protocols:
+                    grpc:
+                    http:
+        remote_write:
+          - endpoint: ${TRACES_ENDPOINT}
+            retry_on_failure:
+                enabled: true
+            basic_auth:
+              username: ${TRACES_USER}
+              password: ${TRACES_API_KEY}
+        service_graphs:
+          enabled: true
+metrics:
+  global:
+    scrape_interval: 15s
+    external_labels:
+      cluster: local
+    remote_write:
+      - name: agent-metrics
+        send_exemplars: true
+        url: ${METRICS_URL}
+        basic_auth:
+          username: ${METRICS_USER}
+          password: ${METRICS_API_KEY}
+  wal_directory: /var/lib/agent/data
+  configs:
+    - name: agent-metrics
+      scrape_configs:
+        - job_name: 'cadvisor'
+          kubernetes_sd_configs:
+            - role: pod
+          relabel_configs:
+            - action: keep
+              source_labels: [ __meta_kubernetes_pod_name ]
+              regex: cadvisor-.*
+            - source_labels:
+              - __meta_kubernetes_pod_node_name
+              target_label: node
+            - source_labels: [ __metrics_path__ ]
+              target_label: metrics_path
+              replacement: /metrics/cadvisor
+            - source_labels: [ job ]
+              target_label: job
+              replacement: kubelet
+          metric_relabel_configs:
+            - source_labels:
+              - container_label_io_kubernetes_pod_name
+              target_label: pod
+            - source_labels:
+              - container_label_io_kubernetes_container_name
+              target_label: container
+            - source_labels:
+              - container_label_io_kubernetes_pod_namespace
+              target_label: namespace
+            - action: labeldrop
+              regex: container_label_io_kubernetes_pod_name
+            - action: labeldrop
+              regex: container_label_io_kubernetes_container_name
+            - action: labeldrop
+              regex: container_label_io_kubernetes_pod_namespace

@@ -2,7 +2,7 @@
   "title": "k6 Disruptor Interactive Demo",
   "description": "Learn more about fault injection testing with the sock-shop microservice application",
   "backend": {
-    "imageid": "kubernetes-k3s-1node-4GB"
+    "imageid": "kubernetes-kubeadm-1node-4GB"
   },
   "details": {
     "intro": {

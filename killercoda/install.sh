@@ -11,7 +11,7 @@ function error() {
 function xk6-disruptor() {
   # TODO: Set up renovate to upgrade these.
   XK6_DISRUPTOR_REPO=${XK6_DISRUPTOR_REPO:-grafana/xk6-disruptor}
-  XK6_DISRUPTOR_VERSION=${XK6_DISRUPTOR_VERSION:-v0.3.1}
+  XK6_DISRUPTOR_VERSION=${XK6_DISRUPTOR_VERSION:-v0.3.10}
   XK6_DISRUPTOR_URL=${XK6_DISRUPTOR_URL:-https://github.com/$XK6_DISRUPTOR_REPO/releases/download/$XK6_DISRUPTOR_VERSION/xk6-disruptor-$XK6_DISRUPTOR_VERSION-linux-amd64.tar.gz}
   XK6_DISRUPTOR_INSTALL_PATH=${XK6_DISRUPTOR_INSTALL_PATH:-/usr/local/bin}
   echo "Downloading xk6-disruptor $XK6_DISRUPTOR_VERSION"

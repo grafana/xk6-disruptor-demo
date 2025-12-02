@@ -16,34 +16,34 @@ resources:
 images:
   - name: adservice
     newName: gcr.io/google-samples/microservices-demo/adservice
-    newTag: v0.8.0
+    newTag: v0.8.0@sha256:45fb8ed886902c0c49e044b1f8870fad61c1022fa23c4943098302a8f1c5b75f
   - name: cartservice
     newName: gcr.io/google-samples/microservices-demo/cartservice
-    newTag: v0.8.0
+    newTag: v0.8.0@sha256:49a71db4bf4cf0a4c0e789f3cb092950a53686087e619a8ad6b02c679ba135e3
   - name: checkoutservice
     newName: gcr.io/google-samples/microservices-demo/checkoutservice
-    newTag: v0.8.0
+    newTag: v0.8.0@sha256:c703e33e1c7ef6e0cdfee582b4b948159b964d502d352d14ed452df2e5a40734
   - name: currencyservice
     newName: gcr.io/google-samples/microservices-demo/currencyservice
-    newTag: v0.8.0
+    newTag: v0.8.0@sha256:bd0fa063169b5fab3461c2b21022714bf5c1429b25334e667700a41e5bd2ab30
   - name: emailservice
     newName: gcr.io/google-samples/microservices-demo/emailservice
-    newTag: v0.8.0
+    newTag: v0.8.0@sha256:53d0416f79e3d4ba8d2092d7c48880375e3398f6e086996aa12b2e68d0a04976
   - name: frontend
     newName: gcr.io/google-samples/microservices-demo/frontend
-    newTag: v0.8.0
+    newTag: v0.8.0@sha256:048d9344b759afffd52f4585fb11ee5842f013857eec1136b60973f9ee2fc8f0
   - name: paymentservice
     newName: gcr.io/google-samples/microservices-demo/paymentservice
-    newTag: v0.8.0
+    newTag: v0.8.0@sha256:2bb8061c4c31b3762eb4d9effd64b9a31abbb92b37e44f66a79615bfe5890c22
   - name: productcatalogservice
     newName: gcr.io/google-samples/microservices-demo/productcatalogservice
-    newTag: v0.8.0
+    newTag: v0.8.0@sha256:ff410df246703eccf2cd1da81baeb22d4a715450f2ca8c13d357d6b2c33cffbd
   - name: recommendationservice
     newName: gcr.io/google-samples/microservices-demo/recommendationservice
-    newTag: v0.8.0
+    newTag: v0.8.0@sha256:f3548c0c199e5eeef1a5f497fedae1592a19d8fa0d8337c351281668637cf477
   - name: shippingservice
     newName: gcr.io/google-samples/microservices-demo/shippingservice
-    newTag: v0.8.0
+    newTag: v0.8.0@sha256:9fe197811cb01ba7087f8b9160eae6094864d56cd9d79af4d38f2d3d65bc4aac
 
 patches:
 - patch: |-
